@@ -32,14 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChat));
             this.SideBar = new System.Windows.Forms.Panel();
             this.pnListFriends = new System.Windows.Forms.Panel();
-            this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.iconButton1 = new FontAwesome.Sharp.IconButton();
             this.borderBottomSearchPn = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.iconButton4 = new FontAwesome.Sharp.IconButton();
+            this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
             this.pnSearch = new System.Windows.Forms.Panel();
             this.pnForInputSearch = new System.Windows.Forms.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btn_addContact = new FontAwesome.Sharp.IconButton();
             this.avatarIML = new System.Windows.Forms.ImageList(this.components);
             this.pnHeader = new System.Windows.Forms.Panel();
+            this.currentInterac = new System.Windows.Forms.Label();
             this.btnOnRightBar = new FontAwesome.Sharp.IconButton();
             this.pnSend = new System.Windows.Forms.Panel();
             this.pnSendText = new System.Windows.Forms.Panel();
@@ -49,12 +54,15 @@
             this.iconSendFile = new FontAwesome.Sharp.IconButton();
             this.iconAddIcon = new FontAwesome.Sharp.IconButton();
             this.pnListMessage = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pnRight = new System.Windows.Forms.Panel();
             this.pnCenter = new System.Windows.Forms.Panel();
             this.pnBorderForCenter = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.SideBar.SuspendLayout();
             this.pnListFriends.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.borderBottomSearchPn.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.pnSearch.SuspendLayout();
             this.pnForInputSearch.SuspendLayout();
             this.pnHeader.SuspendLayout();
@@ -78,7 +86,7 @@
             // 
             // pnListFriends
             // 
-            this.pnListFriends.Controls.Add(this.flpMain);
+            this.pnListFriends.Controls.Add(this.panel2);
             this.pnListFriends.Controls.Add(this.borderBottomSearchPn);
             this.pnListFriends.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnListFriends.Location = new System.Drawing.Point(0, 60);
@@ -86,28 +94,102 @@
             this.pnListFriends.Size = new System.Drawing.Size(257, 662);
             this.pnListFriends.TabIndex = 1;
             // 
-            // flpMain
+            // panel2
             // 
-            this.flpMain.AutoScroll = true;
-            this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpMain.Location = new System.Drawing.Point(0, 1);
-            this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(257, 661);
-            this.flpMain.TabIndex = 1;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.iconButton2);
+            this.panel2.Controls.Add(this.iconButton1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(257, 56);
+            this.panel2.TabIndex = 0;
+            // 
+            // iconButton2
+            // 
+            this.iconButton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.iconButton2.FlatAppearance.BorderSize = 0;
+            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.Users;
+            this.iconButton2.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
+            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton2.IconSize = 36;
+            this.iconButton2.Location = new System.Drawing.Point(123, 0);
+            this.iconButton2.Name = "iconButton2";
+            this.iconButton2.Size = new System.Drawing.Size(130, 52);
+            this.iconButton2.TabIndex = 2;
+            this.iconButton2.Text = " ";
+            this.iconButton2.UseVisualStyleBackColor = true;
+            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
+            // 
+            // iconButton1
+            // 
+            this.iconButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.iconButton1.FlatAppearance.BorderSize = 0;
+            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
+            this.iconButton1.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
+            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton1.IconSize = 36;
+            this.iconButton1.Location = new System.Drawing.Point(0, 0);
+            this.iconButton1.Name = "iconButton1";
+            this.iconButton1.Size = new System.Drawing.Size(123, 52);
+            this.iconButton1.TabIndex = 1;
+            this.iconButton1.UseVisualStyleBackColor = true;
+            this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
             // 
             // borderBottomSearchPn
             // 
             this.borderBottomSearchPn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(120)))), ((int)(((byte)(159)))));
-            this.borderBottomSearchPn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.borderBottomSearchPn.Controls.Add(this.panel3);
+            this.borderBottomSearchPn.Controls.Add(this.flpMain);
+            this.borderBottomSearchPn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.borderBottomSearchPn.Location = new System.Drawing.Point(0, 0);
             this.borderBottomSearchPn.Name = "borderBottomSearchPn";
-            this.borderBottomSearchPn.Size = new System.Drawing.Size(257, 1);
+            this.borderBottomSearchPn.Size = new System.Drawing.Size(257, 662);
             this.borderBottomSearchPn.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.iconButton4);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 614);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(257, 48);
+            this.panel3.TabIndex = 0;
+            // 
+            // iconButton4
+            // 
+            this.iconButton4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.iconButton4.FlatAppearance.BorderSize = 0;
+            this.iconButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton4.IconChar = FontAwesome.Sharp.IconChar.SignOut;
+            this.iconButton4.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
+            this.iconButton4.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton4.IconSize = 36;
+            this.iconButton4.Location = new System.Drawing.Point(0, 0);
+            this.iconButton4.Name = "iconButton4";
+            this.iconButton4.Size = new System.Drawing.Size(257, 48);
+            this.iconButton4.TabIndex = 4;
+            this.iconButton4.Text = " ";
+            this.iconButton4.UseVisualStyleBackColor = true;
+            this.iconButton4.Click += new System.EventHandler(this.iconButton4_Click);
+            // 
+            // flpMain
+            // 
+            this.flpMain.BackColor = System.Drawing.Color.White;
+            this.flpMain.Location = new System.Drawing.Point(0, 53);
+            this.flpMain.Name = "flpMain";
+            this.flpMain.Size = new System.Drawing.Size(257, 561);
+            this.flpMain.TabIndex = 1;
             // 
             // pnSearch
             // 
             this.pnSearch.Controls.Add(this.pnForInputSearch);
-            this.pnSearch.Controls.Add(this.btn_addContact);
             this.pnSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnSearch.Location = new System.Drawing.Point(0, 0);
             this.pnSearch.Name = "pnSearch";
@@ -119,9 +201,9 @@
             this.pnForInputSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(227)))), ((int)(((byte)(236)))));
             this.pnForInputSearch.CausesValidation = false;
             this.pnForInputSearch.Controls.Add(this.txtSearch);
-            this.pnForInputSearch.Location = new System.Drawing.Point(66, 12);
+            this.pnForInputSearch.Location = new System.Drawing.Point(12, 12);
             this.pnForInputSearch.Name = "pnForInputSearch";
-            this.pnForInputSearch.Size = new System.Drawing.Size(178, 35);
+            this.pnForInputSearch.Size = new System.Drawing.Size(232, 35);
             this.pnForInputSearch.TabIndex = 1;
             // 
             // txtSearch
@@ -136,22 +218,6 @@
             this.txtSearch.Size = new System.Drawing.Size(156, 22);
             this.txtSearch.TabIndex = 1;
             // 
-            // btn_addContact
-            // 
-            this.btn_addContact.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btn_addContact.FlatAppearance.BorderSize = 0;
-            this.btn_addContact.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_addContact.IconChar = FontAwesome.Sharp.IconChar.Home;
-            this.btn_addContact.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
-            this.btn_addContact.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btn_addContact.IconSize = 36;
-            this.btn_addContact.Location = new System.Drawing.Point(0, 0);
-            this.btn_addContact.Name = "btn_addContact";
-            this.btn_addContact.Size = new System.Drawing.Size(60, 60);
-            this.btn_addContact.TabIndex = 0;
-            this.btn_addContact.UseVisualStyleBackColor = true;
-            this.btn_addContact.Click += new System.EventHandler(this.btn_addContact_Click_1);
-            // 
             // avatarIML
             // 
             this.avatarIML.ColorDepth = System.Windows.Forms.ColorDepth.Depth16Bit;
@@ -164,6 +230,7 @@
             // pnHeader
             // 
             this.pnHeader.BackColor = System.Drawing.Color.White;
+            this.pnHeader.Controls.Add(this.currentInterac);
             this.pnHeader.Controls.Add(this.btnOnRightBar);
             this.pnHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnHeader.Location = new System.Drawing.Point(0, 0);
@@ -171,12 +238,20 @@
             this.pnHeader.Size = new System.Drawing.Size(757, 60);
             this.pnHeader.TabIndex = 1;
             // 
+            // currentInterac
+            // 
+            this.currentInterac.AutoSize = true;
+            this.currentInterac.Location = new System.Drawing.Point(33, 23);
+            this.currentInterac.Name = "currentInterac";
+            this.currentInterac.Size = new System.Drawing.Size(0, 15);
+            this.currentInterac.TabIndex = 1;
+            // 
             // btnOnRightBar
             // 
             this.btnOnRightBar.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnOnRightBar.FlatAppearance.BorderSize = 0;
             this.btnOnRightBar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOnRightBar.IconChar = FontAwesome.Sharp.IconChar.ChevronRight;
+            this.btnOnRightBar.IconChar = FontAwesome.Sharp.IconChar.AngleRight;
             this.btnOnRightBar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
             this.btnOnRightBar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnOnRightBar.IconSize = 36;
@@ -296,6 +371,14 @@
             this.pnListMessage.Size = new System.Drawing.Size(757, 614);
             this.pnListMessage.TabIndex = 3;
             // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(757, 10);
+            this.panel1.TabIndex = 1;
+            // 
             // pnRight
             // 
             this.pnRight.BackColor = System.Drawing.Color.White;
@@ -329,14 +412,6 @@
             this.pnBorderForCenter.Size = new System.Drawing.Size(759, 722);
             this.pnBorderForCenter.TabIndex = 6;
             // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(757, 10);
-            this.panel1.TabIndex = 1;
-            // 
             // FormChat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -352,10 +427,14 @@
             this.Load += new System.EventHandler(this.FormChat_Load);
             this.SideBar.ResumeLayout(false);
             this.pnListFriends.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.borderBottomSearchPn.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.pnSearch.ResumeLayout(false);
             this.pnForInputSearch.ResumeLayout(false);
             this.pnForInputSearch.PerformLayout();
             this.pnHeader.ResumeLayout(false);
+            this.pnHeader.PerformLayout();
             this.pnSend.ResumeLayout(false);
             this.pnSendText.ResumeLayout(false);
             this.pnSendText.PerformLayout();
@@ -371,7 +450,6 @@
         private Panel SideBar;
         private Panel pnSearch;
         private TextBox txtSearch;
-        private FontAwesome.Sharp.IconButton btn_addContact;
         private Panel pnForInputSearch;
         private Panel pnListFriends;
         private Panel borderBottomSearchPn;
@@ -391,5 +469,11 @@
         private ImageList avatarIML;
         private FlowLayoutPanel flpMain;
         private Panel panel1;
+        private Panel panel2;
+        private FontAwesome.Sharp.IconButton iconButton2;
+        private FontAwesome.Sharp.IconButton iconButton1;
+        private Panel panel3;
+        private FontAwesome.Sharp.IconButton iconButton4;
+        private Label currentInterac;
     }
 }

@@ -28,37 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.iconButton1 = new FontAwesome.Sharp.IconButton();
+            this.loginBtn = new FontAwesome.Sharp.IconButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.iconButton3 = new FontAwesome.Sharp.IconButton();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.username = new System.Windows.Forms.TextBox();
+            this.goToRegisterBtn = new FontAwesome.Sharp.IconButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.iconButton4 = new FontAwesome.Sharp.IconButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.password = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // iconButton1
+            // loginBtn
             // 
-            this.iconButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(120)))), ((int)(((byte)(159)))));
-            this.iconButton1.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton1.ForeColor = System.Drawing.Color.White;
-            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.None;
-            this.iconButton1.IconColor = System.Drawing.Color.Black;
-            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.iconButton1.Location = new System.Drawing.Point(64, 323);
-            this.iconButton1.Name = "iconButton1";
-            this.iconButton1.Size = new System.Drawing.Size(250, 38);
-            this.iconButton1.TabIndex = 0;
-            this.iconButton1.Text = "Submit";
-            this.iconButton1.UseVisualStyleBackColor = false;
-            this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
+            this.loginBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(120)))), ((int)(((byte)(159)))));
+            this.loginBtn.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.loginBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginBtn.ForeColor = System.Drawing.Color.White;
+            this.loginBtn.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.loginBtn.IconColor = System.Drawing.Color.Black;
+            this.loginBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.loginBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.loginBtn.Location = new System.Drawing.Point(64, 323);
+            this.loginBtn.Name = "loginBtn";
+            this.loginBtn.Size = new System.Drawing.Size(250, 38);
+            this.loginBtn.TabIndex = 0;
+            this.loginBtn.Text = "Submit";
+            this.loginBtn.UseVisualStyleBackColor = false;
+            this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
             // 
             // label1
             // 
@@ -69,14 +69,13 @@
             this.label1.Size = new System.Drawing.Size(127, 47);
             this.label1.TabIndex = 1;
             this.label1.Text = "Sign In";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.iconButton3);
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.username);
             this.panel1.Location = new System.Drawing.Point(64, 137);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(250, 45);
@@ -98,41 +97,41 @@
             this.iconButton3.Size = new System.Drawing.Size(44, 43);
             this.iconButton3.TabIndex = 3;
             this.iconButton3.UseVisualStyleBackColor = true;
-            this.iconButton3.Click += new System.EventHandler(this.iconButton3_Click);
             // 
-            // textBox2
+            // username
             // 
-            this.textBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox2.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.textBox2.Location = new System.Drawing.Point(50, 6);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(187, 29);
-            this.textBox2.TabIndex = 2;
+            this.username.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.username.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
+            this.username.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.username.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.username.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.username.Location = new System.Drawing.Point(50, 6);
+            this.username.Name = "username";
+            this.username.Size = new System.Drawing.Size(187, 29);
+            this.username.TabIndex = 2;
             // 
-            // iconButton2
+            // goToRegisterBtn
             // 
-            this.iconButton2.BackColor = System.Drawing.Color.White;
-            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.None;
-            this.iconButton2.IconColor = System.Drawing.Color.Black;
-            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.iconButton2.Location = new System.Drawing.Point(64, 374);
-            this.iconButton2.Name = "iconButton2";
-            this.iconButton2.Size = new System.Drawing.Size(250, 38);
-            this.iconButton2.TabIndex = 7;
-            this.iconButton2.Text = "Register";
-            this.iconButton2.UseVisualStyleBackColor = false;
+            this.goToRegisterBtn.BackColor = System.Drawing.Color.White;
+            this.goToRegisterBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.goToRegisterBtn.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.goToRegisterBtn.IconColor = System.Drawing.Color.Black;
+            this.goToRegisterBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.goToRegisterBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.goToRegisterBtn.Location = new System.Drawing.Point(64, 374);
+            this.goToRegisterBtn.Name = "goToRegisterBtn";
+            this.goToRegisterBtn.Size = new System.Drawing.Size(250, 38);
+            this.goToRegisterBtn.TabIndex = 7;
+            this.goToRegisterBtn.Text = "Register";
+            this.goToRegisterBtn.UseVisualStyleBackColor = false;
+            this.goToRegisterBtn.Click += new System.EventHandler(this.goToRegisterBtn_Click);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.iconButton4);
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.password);
             this.panel2.Location = new System.Drawing.Point(64, 207);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(250, 45);
@@ -155,19 +154,18 @@
             this.iconButton4.TabIndex = 3;
             this.iconButton4.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // password
             // 
-            this.textBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.textBox1.Location = new System.Drawing.Point(50, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(187, 29);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.UseSystemPasswordChar = true;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.password.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.password.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(197)))), ((int)(((byte)(213)))));
+            this.password.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.password.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.password.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.password.Location = new System.Drawing.Point(50, 5);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(187, 29);
+            this.password.TabIndex = 2;
+            this.password.UseSystemPasswordChar = true;
             // 
             // panel3
             // 
@@ -185,10 +183,10 @@
             this.ClientSize = new System.Drawing.Size(368, 517);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.iconButton2);
+            this.Controls.Add(this.goToRegisterBtn);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.iconButton1);
+            this.Controls.Add(this.loginBtn);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
@@ -204,15 +202,15 @@
 
         #endregion
 
-        private FontAwesome.Sharp.IconButton iconButton1;
+        private FontAwesome.Sharp.IconButton loginBtn;
         private Label label1;
         private Panel panel1;
         private FontAwesome.Sharp.IconButton iconButton3;
-        private TextBox textBox2;
-        private FontAwesome.Sharp.IconButton iconButton2;
+        private TextBox username;
+        private FontAwesome.Sharp.IconButton goToRegisterBtn;
         private Panel panel2;
         private FontAwesome.Sharp.IconButton iconButton4;
-        private TextBox textBox1;
+        private TextBox password;
         private Panel panel3;
     }
 }

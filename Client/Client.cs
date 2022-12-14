@@ -1,7 +1,10 @@
-﻿using System.Drawing.Text;
+﻿using Newtonsoft.Json;
+using System.Drawing.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.Json;
 
 namespace Client
 {
@@ -9,93 +12,158 @@ namespace Client
     {
         Boolean onRightBar = true;
         private IPEndPoint IP;
-        private Socket client;
+        Socket client;
+        string idNguoiDung;
+        string sodienthoai;
+        string ten;
+        List<DTO.NguoiDungDTO> dsbb;
+        List<DTO.NhomDTO> dsnhombb;
+        bool thoat = false;
+        Thread trd;
+        Thread trddangnhap;
+        Thread trdtaonhom;
+        Thread trdthemban;
+        IPEndPoint iep;
 
         private int _ContactPanelsAddedCount = 0;
         private int _MessagePanelsAddedCount = 0;
 
-        public FormChat()
+        bool isCurGroup = false;
+        string curId = "";
+
+
+        public FormChat(string phone, string fullName)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
-            Connect();
+            iep = new IPEndPoint(IPAddress.Parse(Login.ip), int.Parse("2008"));
+            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            client.Connect(iep);
+            sodienthoai = phone;
+            ten = fullName;
+            AppendTextBox(fullName);
+            trd = new Thread(new ThreadStart(this.ThreadFormChat));
+            trd.IsBackground = true;
+            trd.Start();
         }
-        void Connect()
+        public void AppendTextBox(string value)
         {
-            IP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1611);
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            try
+            if (InvokeRequired)
             {
-                client.Connect(IP);
-                Console.WriteLine("Connect server success");
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Không thể kết nối server", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try { this.Invoke(new Action<string>(AppendTextBox), new object[] { value }); }
+                catch (Exception) { }
                 return;
             }
-            Thread listen = new Thread(Receive);
-            listen.IsBackground = true;
-            listen.Start();
+        }
+        private void ThreadFormChat()
+        {
+            byte[] data = new byte[2048];
+            MESSAGE.COMMON common = new MESSAGE.COMMON(3, sodienthoai);
+            sendJson(common);
+            int recv = client.Receive(data);
+
+            string jsonString = Encoding.ASCII.GetString(data, 0, recv);
+            jsonString.Replace("\\u0022", "\"");
+            MESSAGE.COMMON? com = System.Text.Json.JsonSerializer.Deserialize<MESSAGE.COMMON>(jsonString);
+            try
+            {
+                if (com != null && com.kind == 31)
+                {
+                    dsbb = new List<DTO.NguoiDungDTO>();
+                    MESSAGE.DSBANBENHOM? ds = JsonConvert.DeserializeObject<MESSAGE.DSBANBENHOM>(com.content);
+                    dsbb = ds.DSBAN;
+                    dsnhombb = ds.DSNHOM;
+                    AppendListView(dsbb, dsnhombb);
+                    while (!thoat)
+                    {
+                        data = new byte[1024];
+                        recv = client.Receive(data);
+
+                        jsonString = Encoding.ASCII.GetString(data, 0, recv);
+                        com = System.Text.Json.JsonSerializer.Deserialize<MESSAGE.COMMON>(jsonString);
+                        if (com != null)
+                        {
+                            switch (com.kind)
+                            {
+                                case 21:
+                                    {
+                                        MESSAGE.TNNHOM? messageGroups = JsonConvert.DeserializeObject<MESSAGE.TNNHOM>(com.content);
+                                        messageGroups.DSTN.ForEach(g =>
+                                        {
+                                            if(g.IDNguoiGui == idNguoiDung)
+                                            {
+                                                CreateMessagePanel(g.IDNoiDung, true);
+                                            }
+                                            else
+                                            {
+                                                CreateMessagePanel(g.IDNoiDung, false);
+                                            }
+                                            Console.WriteLine(g.IDNoiDung);
+                                        });
+                                        break;
+                                    }
+                                case 22:
+                                    {
+                                        MESSAGE.TNBAN? messageUsers = JsonConvert.DeserializeObject<MESSAGE.TNBAN>(com.content);
+
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+                client.Disconnect(true);
+                client.Close();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        public void AppendListView(List<DTO.NguoiDungDTO> value, List<DTO.NhomDTO> value1)
+        {
+            if (InvokeRequired)
+            {
+                try { this.Invoke(new Action<List<DTO.NguoiDungDTO>, List<DTO.NhomDTO>>(AppendListView), new object[] { value, value1 }); }
+                catch (Exception) { }
+                return;
+            }
+            System.Windows.Forms.ImageList myIcon = new ImageList();
+            myIcon.ImageSize = new Size(50, 50);
+            int i = 0;
+            foreach (DTO.NguoiDungDTO ng in value)
+            {
+                var id = ng.IDNguoiDung;
+                var username = ng.HoNguoiDung + " " + ng.TenNguoiDung;
+                var phone = ng.SoDienThoai;
+                CreateContactPanel(id, username, phone, false);
+                i++;
+            }
+            foreach (DTO.NhomDTO nh in value1)
+            {
+                var id =  nh.IDNhom;
+                var username = "Nhóm: " + nh.TenNhom;
+                var phone = "";
+                CreateContactPanel(id, username, phone,true);
+                i++;
+            }
+        }
+
+        private void sendJson(object obj)
+        {
+            byte[] jsonUtf8Bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(obj);
+            client.Send(jsonUtf8Bytes, jsonUtf8Bytes.Length, SocketFlags.None);
         }
         void Close()
         {
-            client.Close();
-        }
-        void Send()
-        {
-            if (txtMessage.Text != string.Empty)
+            if(client != null)
             {
-                client.Send(Serialize(txtMessage.Text));
-                CreateMessagePanel(txtMessage.Text, true);
-                txtMessage.Clear();
+                client.Close();
             }
         }
-        void Receive()
-        {
-            try
-            {
-                while (true)
-                {
-                    byte[] data = new byte[1024 * 5000];
-                    client.Receive(data);
-                    string message = (string)Deserialize(data);
-                    Console.WriteLine(message);
-                    if (this.InvokeRequired)
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate ()
-                        {
-                            CreateMessagePanel(message, false);
-                        });
-                    }
-
-                }
-            }
-            catch
-            {
-                Close();
-            }
-        }
-        byte[] Serialize(object obj)
-        {
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(ms, obj);
-            return ms.ToArray();
-
-        }
-        object Deserialize(byte[] data)
-        {
-            MemoryStream ms = new MemoryStream(data);
-            BinaryFormatter formatter = new BinaryFormatter();
-            return formatter.Deserialize(ms);
-
-        }
+     
 
         private void iconSend_Click(object sender, EventArgs e)
         {
-            Send();
         }
 
         private void FormChat_FormClosed(object sender, FormClosedEventArgs e)
@@ -153,15 +221,32 @@ namespace Client
 
         public void DynamicButton_Click(object sender, EventArgs e)
         {
-            string parentPanelName;
+            string parentPanelName ="";
 
-            parentPanelName = null;
             foreach (Control controlObj in flpMain.Controls)
             {
                 if (controlObj.Name == (sender as Panel).Name)
                 {
                     parentPanelName = controlObj.Name;
                     controlObj.BackColor = Color.FromArgb(254, 227, 236);
+                    isCurGroup = parentPanelName.Split('_')[1] == "group";
+                    curId = parentPanelName.Split('_')[2];
+
+                    if (isCurGroup)
+                    {
+                        currentInterac.Text = dsnhombb.Find(nhom => nhom.IDNhom == curId).TenNhom;
+                        var a = new Thread(getMessageGroup);
+                        a.SetApartmentState(ApartmentState.STA);
+                        a.Start();
+                        //getMessageGroup();
+                    }
+                    else
+                    {
+                        var bb = dsbb.Find(nhom => nhom.IDNguoiDung == curId);
+                        currentInterac.Text = bb.HoNguoiDung + " " + bb.TenNguoiDung;
+                        getMessageUser();
+                    }
+                    
                 }
                 else
                 {
@@ -169,7 +254,48 @@ namespace Client
                 }
             }
 
+            Console.WriteLine(parentPanelName);
 
+
+        }
+
+        private void getMessageUser()
+        {
+            MESSAGE.REQUEST_MESSAGE requestMessage = new MESSAGE.REQUEST_MESSAGE(sodienthoai, curId,isCurGroup);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(requestMessage);
+            MESSAGE.COMMON common = new MESSAGE.COMMON(22, jsonString);
+            sendJson(common);
+        }
+        private void getMessageGroup()
+        {
+            byte[] data = new byte[1024];
+            MESSAGE.REQUEST_MESSAGE requestMessage = new MESSAGE.REQUEST_MESSAGE(sodienthoai, curId, isCurGroup);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(requestMessage);
+            MESSAGE.COMMON common = new MESSAGE.COMMON(21, jsonString);
+            sendJson(common);
+            int recv = client.Receive(data);
+
+            jsonString = Encoding.ASCII.GetString(data, 0, recv);
+            jsonString.Replace("\\u0022", "\"");
+            Console.WriteLine("asdaw"+jsonString);
+            MESSAGE.COMMON? com = System.Text.Json.JsonSerializer.Deserialize<MESSAGE.COMMON>(jsonString);
+            try
+            {
+                if (com != null && com.kind == 21)
+                {
+                    if (com.content != "CANCEL")
+                    {
+                       
+                    }
+                    else MessageBox.Show("Login fail!");
+                }
+                client.Disconnect(true);
+                client.Close();
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public void CreateMessagePanel(string message, Boolean isMine)
@@ -191,7 +317,6 @@ namespace Client
             messageLabel = new Label();
             {
                 var withBlock = messageLabel;
-                var s = (message.Length * 9) > 480 ? 500 : ((message.Length * 9) + 20);
                 withBlock.AutoSize = true;
                 withBlock.Name = "lblMessagePhone" + _MessagePanelsAddedCount.ToString();
                 withBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -199,7 +324,6 @@ namespace Client
                 withBlock.BackColor = isMine ? System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(120)))), ((int)(((byte)(159))))) : Color.White;
                 withBlock.MaximumSize = new System.Drawing.Size(500, 0);
                 withBlock.Padding = new System.Windows.Forms.Padding(10);
-                withBlock.Location = isMine ? new System.Drawing.Point(pnListMessage.Size.Width - s - 15, 14) : new System.Drawing.Point(0, 14);
                 withBlock.Text = message;
             }
 
@@ -210,7 +334,7 @@ namespace Client
             resetMyLocationMessage();
         }
 
-        public void CreateContactPanel(string imagePath, string username, string phoneNumber)
+        public void CreateContactPanel(string id, string username, string phoneNumber, Boolean isGroup)
         {
             _ContactPanelsAddedCount += 1;
             Panel contactPanel;
@@ -219,7 +343,15 @@ namespace Client
                 var withBlock = contactPanel;
                 withBlock.BackColor = Color.White;
                 withBlock.Size = new Size(420, 50);
-                withBlock.Name = "pnlContact" + (_ContactPanelsAddedCount).ToString();
+                if (isGroup)
+                {
+                    withBlock.Name = "pnlContact_group_" + id;
+                }
+                else
+                {
+                withBlock.Name = "pnlContact_user_" + id;
+
+                }
                 withBlock.Dock = DockStyle.Top;
             }
             contactPanel.Click += DynamicButton_Click;
@@ -232,7 +364,15 @@ namespace Client
                 withBlock.Size = new Size(45, 45);
                 withBlock.Location = new Point(5, 5);
                 withBlock.Name = "picContactImage" + (_ContactPanelsAddedCount).ToString();
-                withBlock.ImageLocation = imagePath;
+                if (isGroup)
+                {
+                    withBlock.ImageLocation = "https://static.thenounproject.com/png/983470-200.png";
+                }
+                else
+                {
+                    withBlock.ImageLocation = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png";
+
+                }
             }
 
             Rectangle r = new Rectangle(0, 0, contactPictureBox.Width, contactPictureBox.Height);
@@ -275,13 +415,6 @@ namespace Client
             flpMain.ScrollControlIntoView(contactPanel);
         }
 
-        private void btn_addContact_Click_1(object sender, EventArgs e)
-        {
-            var strImage = "logo.png";
-            var username = "LAPTRINHVB.NET";
-            var phone = "+(84) 956.123.122";
-            CreateContactPanel(strImage, username, phone);
-        }
 
 
         private void FormChat_Load(object sender, EventArgs e)
@@ -294,6 +427,42 @@ namespace Client
             {
                 iconSend.PerformClick();
             }
+        }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            trdthemban = new Thread(LoadFormAddFriend);
+            trdthemban.SetApartmentState(ApartmentState.STA);
+            trdthemban.Start();
+        }
+        private void LoadFormAddFriend(object? obj)
+        {
+            Application.Run(new AddFriend(sodienthoai, ten));
+        }
+
+        private void iconButton2_Click(object sender, EventArgs e)
+        {
+            trdtaonhom = new Thread(LoadFormCreateGroup);
+            trdtaonhom.SetApartmentState(ApartmentState.STA);
+            trdtaonhom.Start();
+        }
+        private void LoadFormCreateGroup(object? obj)
+        {
+            Application.Run(new CreateGroup(sodienthoai, dsbb, ten));
+        }
+
+        private void iconButton4_Click(object sender, EventArgs e)
+        {
+            MESSAGE.COMMON common = new MESSAGE.COMMON(4, sodienthoai);
+            sendJson(common);
+            trddangnhap = new Thread(LoadFormLogin);
+            trddangnhap.SetApartmentState(ApartmentState.STA);
+            trddangnhap.Start();
+        }
+        private void LoadFormLogin(object? obj)
+        {
+            Application.Exit();
+            Application.Run(new Login());
         }
     }
 }
