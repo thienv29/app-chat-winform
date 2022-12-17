@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "lkwxXjzWh6loY4kV3w04zRXu58rwP3+zxrbJKXJVNJRBe1MdGk6peiA6osZ7LuKDy8I4pcMrQs4k7TrjLgan9Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\IDE\\code\\Winform\\AppChat2\\Client\\Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\fontawesome.sharp\\6.1.1\\fontawesome.sharp.6.1.1.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

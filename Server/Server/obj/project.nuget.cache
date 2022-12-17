@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "VbC7O+6Zn+4fYMMkzC5U9QlRx6qAvlQ6INrVcIMSKifrdo6A6fsJHZvJBjl/cKowrPG8XyeV4s9mVoaoXm3nDA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\IDE\\code\\Winform\\AppChat2\\Server\\Server\\Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
